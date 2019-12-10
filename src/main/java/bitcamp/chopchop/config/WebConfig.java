@@ -23,6 +23,7 @@ public class WebConfig implements WebMvcConfigurer {
     mr.setMaxUploadSize(1000000000);
     mr.setMaxInMemorySize(2000000000);
     mr.setMaxUploadSizePerFile(500000000);
+    
     return mr;
   }
 
