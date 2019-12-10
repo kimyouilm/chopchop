@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitcamp.chopchop.dao.ProductDao">
+
+  <!-- 컬럼 이름과 자바 객체의 프로퍼티 이름을 연결한다. -->
+  <resultMap type="Product" id="ProductMap">
+    <id column="product_id" property="productNo"/>
+    <result column="title" property="title"/>
+    <result column="price" property="price"/>
+    <result column="detail" property="detail"/>
+    <result column="stock" property="stock"/>
+    <result column="discount" property="discount"/>
+    <result column="view_count" property="viewCount"/>
+    <result column="category" property="category"/>
+    <result column="species" property="species"/>
+  </resultMap>
+  
+  <resultMap type="Product" id="findWithFilesMap">
+    <id column="product_id" property="productNo"/>
+    <result column="title" property="title"/>
+    <result column="price" property="price"/>
+    <result column="detail" property="detail"/>
+    <result column="stock" property="stock"/>
+    <result column="view_count" property="viewCount"/>
+    <result column="discount" property="discount"/>
+    <result column="category" property="category"/>
+    <result column="species" property="species"/>
+    
+    <collection property="files" ofType="PhotoFile">
+      <id column="photo_id" property="photoFileNo"/>
+      <result column="file_path" property="filePath"/>
+      <result column="product_id" property="productNo"/>
+    </collection>
+
+  </resultMap>
+  
+   <resultMap type="Product" id="findWithFilesCommentMap">
+    <id column="product_id" property="productNo"/>
+    <result column="title" property="title"/>
+    <result column="price" property="price"/>
+    <result column="detail" property="detail"/>
+    <result column="stock" property="stock"/>
+    <result column="discount" property="discount"/>
+    <result column="category" property="category"/>
+    <result column="species" property="species"/>
+    <result column="view_count" property="viewCount"/>
+
+    <collection property="files" ofType="PhotoFile">
+      <id column="photo_id" property="photoFileNo"/>
+      <result column="file_path" property="filePath"/>
+      <result column="product_id" property="productNo"/>
+    </collection>
+
+    <collection property="options" ofType="ProductOption">
+      <id column="option_id" property="optionNo"/>
+      <result column="product_id" property="productNo"/>
+      <result column="optionTitle" property="title"/>
+      <result column="optionPrice" property="price"/>
+    </collection>
+    
+    <collection property="comments" ofType="Comment">
+      <id column="comment_id" property="commentNo"/>
+      <result column="product_id" property="productNo"/>
+      <result column="member_id" property="memberNo"/>
+      <result column="ct" property="title"/>
+      <result column="cc" property="content"/>
+      <result column="created_date" property="createdDate"/>
+    </collection>
+    <collection property="member" resultMap="memberMap"/>
+  </resultMap>
+  
+  <resultMap type="Member" id="memberMap">
+    <id column="member_id" property="memberNo"/>
+    <result column="post_no" property="postNo"/>
+    <result column="base_address" property="baseAddress"/>
+    <result column="detail_address" property="detailAddress"/>
+    <result column="email" property="email"/>
+    <result column="password" property="password"/>
+    <result column="photo" property="photo"/>
+    <result column="nickname" property="nickname"/>
+    <result column="tel" property="tel"/>
+  </resultMap>
+
+  <select id="findAll" parameterType="map" resultMap="findWithFilesMap">
+    select
+      p.product_id,
+      p.title,
+      p.price,
+      p.detail,
+      p.stock,
+      p.discount,
+      p.category,
+      p.species,
+      p.view_count,
+      f.photo_id,
+      f.file_path
+    from 
+      product p 
+        left outer join store_photo f on p.product_id=f.product_id
+    order by p.product_id desc
+  </select>
+  
+  <select id="findAllPaging" parameterType="map" resultMap="findWithFilesMap">
+    select
+      p.product_id,
+      p.title,
+      p.price,
+      p.detail,
+      p.stock,
+      p.discount,
+      p.category,
+      p.species,
+      p.view_count,
+      f.photo_id,
+      f.file_path
+    from 
+      product p 
+        left outer join store_photo f on p.product_id=f.product_id
+    limit #{offset}, #{pageSize}
+  </select>
+  
+  <select id="findBy" parameterType="int" resultMap="ProductMap">
+    select
+      product_id,
+      title,
+      price,
+      detail,
+      stock,
+      discount,
+      category,
+      species
+    from
+      product
+    where
+      product_id=#{value}
+  </select>
+  
+  <select id="findWithFilesBy" 
+          parameterType="int" 
+          resultMap="findWithFilesCommentMap">
+    select
+      p.product_id,
+      p.title,
+      p.price,
+      p.detail,
+      p.discount,
+      p.category,
+      p.species,
+      p.view_count,
+      f.photo_id,
+      f.file_path,
+      c.comment_id,
+      c.title ct,
+      c.content cc,
+      c.created_date,
+      c.answer,
+      o.option_id,
+      o.title optionTitle,
+      o.price optionPrice
+    from
+      product p
+        left outer join product_comment c on p.product_id=c.product_id
+        left outer join store_photo f on p.product_id=f.product_id
+        left outer join product_option o on p.product_id=o.product_id
+    where
+      p.product_id=#{value}
+  </select>
+  
+  <select id="findByKeyword"
+          parameterType="string"
+          resultMap="findWithFilesMap">
+  <bind name="pattern" value="'%' + _parameter + '%'"/>
+    select
+      p.product_id,
+      p.title,
+      p.price,
+      p.detail,
+      p.stock,
+      p.discount,
+      p.category,
+      p.species,
+      f.photo_id,
+      f.file_path
+    from 
+      product p 
+        left outer join store_photo f on p.product_id=f.product_id
+    where title like #{pattern}
+      or category like #{pattern}
+    order by product_id asc
+  </select>
+  
+  <select id="findCategory"
+          parameterType="string"
+          resultMap="findWithFilesMap">
+  <bind name="pattern" value="'%' + _parameter + '%'"/>
+      select
+      p.product_id,
+      p.title,
+      p.price,
+      p.detail,
+      p.stock,
+      p.discount,
+      p.category,
+      p.species,
+      f.photo_id,
+      f.file_path
+    from 
+      product p
+        left outer join store_photo f on p.product_id=f.product_id
+    where species like #{pattern}
+    order by product_id asc
+  </select>
+
+  <update id="increaseViewCount" parameterType="int">
+    update product set
+      view_count = view_count + 1
+    where product_id=#{value}
+  </update>
+  
+  <insert id="insert" parameterType="Product" useGeneratedKeys="true" keyColumn="product_id" keyProperty="productNo">
+    insert into product(title, price, detail, stock, discount, category,species)
+    values(#{title},#{price},#{detail},#{stock},#{discount},#{category},#{species}) 
+  </insert>
+  
+  <update id="update" parameterType="Product">
+    update product set
+      title=#{title},
+      price=#{price},
+      detail=#{detail},
+      stock=#{stock},
+      discount=#{discount},
+      category=#{category},
+      species=#{species}
+    where product_id=#{productNo}
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    delete from product
+    where product_id=#{value}
+  </delete>
+  
+  <select id="mainTop" resultMap="findWithFilesMap">
+    SELECT product.product_id, detail, title, price, view_count, file_path, photo_id, discount
+    FROM product left JOIN store_photo ON product.product_id = store_photo.product_id 
+    ORDER BY view_count DESC, photo_id ASC
+  </select>
+  
+  <select id="size" resultType="int">
+    select count(*) from product
+  </select>
+</mapper>

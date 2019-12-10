@@ -1,0 +1,80 @@
+/* Master Stylesheet - 1.0 */
+/* :: 1.0 Import Fonts */
+/* :: 2.0 Import All CSS */
+/* @import url(/node_modules/bootstrap/dist/css/bootstrap.min.css); */
+@import url(/css/common/nice-select.css);
+/* :: 3.0 Base CSS */
+a.chop-logo {
+	font-weight: bold;
+}
+
+.pb-70 {
+    padding-bottom: 70px !important;
+}
+
+
+.section-padding-100-0 {
+    padding-top: 100px;
+    padding-bottom: 0;
+}
+
+
+.bg-img {
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.bueno-search-area {
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.bueno-search-area .form-group {
+    margin-bottom: 0;
+}
+
+.bueno-search-area .form-group:focus {
+    box-shadow: none;
+}
+
+.bueno-search-area .form-group .form-control:focus {
+    box-shadow: none;
+}
+
+.bueno-search-area .nice-select {
+    border-radius: 0;
+    border: 1px solid #dadfe5;
+    float: none;
+    font-size: 14px;
+    height: 50px;
+    line-height: 50px;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.bueno-search-area .nice-select .current {
+    color: #7a7a7a;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.bueno-search-area .nice-select .list {
+    border-radius: 0;
+    width: 100%;
+    border-top: 2px solid #b0c364;
+    margin-top: 0;
+}
+
+.bueno-search-area .nice-select .list li {
+    color: #7a7a7a;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+

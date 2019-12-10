@@ -1,0 +1,126 @@
+@charset "UTF-8";
+
+body {
+    font-family: 'Open Sans', 'PT Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+  
+h1.title {
+    font-weight: 500;
+    margin: 0 0 30px;
+}
+  
+.bucket {
+    background: #fff;
+    width: 450px;
+    margin: 50px auto;
+    box-shadow: 2px 1px 1px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgb(163, 182, 91);
+
+}
+  
+.buffer {
+    padding: 40px;
+}
+  
+.header {
+    text-align: center;
+}
+  
+.clearfix {
+    clear: both;
+    font-size: 1px;
+    height: 0px;
+}
+  
+form {
+    width: auto;
+}
+  
+input {
+    float: none;
+    width: 94%;
+    margin-bottom: 20px;
+    border: 1px solid #DBE5E7;
+    border-radius: 2px;
+    padding: 12px 10px;
+    font-size: 14px;
+    width: 100%;
+}
+  
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+  
+input.btn {
+    background: rgb(163, 182, 91);
+    color: #fff;
+    padding: 10px;
+    margin: 0;
+    border-width: 1px;
+    cursor: pointer;
+}
+  
+input.btnn {
+    background: gray;
+    color: #fff;
+    padding: 10px;
+    margin: 0;
+    border-width: 1px;
+    cursor: pointer;
+}
+  
+.logo-area {
+    position: relative;
+    margin text-align: center;
+    width: 200px;
+    height: 200px;
+    background: url('/img/core-img/choplogo.png') no-repeat;
+    background-size: contain;
+    background-position: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+  
+.btnn:hover {
+    background-color: black;
+}
+  
+.btn:hover {
+    background-color: #819140;
+}
+  
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+    .logo-area {
+        padding: 30px;
+    }
+}
+  
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .logo-area {
+        padding: 30px;
+    }
+}
+  
+@media only screen and (max-width: 767px) {
+    .logo-area {
+        padding: 30px 15px;
+    }
+}
+  
+.logo-area a {
+    display: inline-block;
+}
+  
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .logo-area a {
+        max-width: 50px;
+    }
+}
+  
+@media only screen and (max-width: 767px) {
+  .logo-area a {
+      max-width: 50px;
+  }
+ }

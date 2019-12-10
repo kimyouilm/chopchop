@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitcamp.chopchop.dao.MemberDao">
+
+	<resultMap type="Member" id="MemberMap">
+		<id column="member_id" property="memberNo" />
+		<result column="post_no" property="postNo" />
+		<result column="base_address" property="baseAddress" />
+		<result column="detail_address" property="detailAddress" />
+		<result column="email" property="email" />
+		<result column="password" property="password" />
+		<result column="photo" property="photo" />
+		<result column="nickname" property="nickname" />
+		<result column="tel" property="tel" />
+		<result column="grade" property="grade" />
+	</resultMap>
+
+	<!-- Member and Recipe join -->
+	<resultMap type="Member" id="MemberRecipeMap">
+		<id column="member_id" property="memberNo" />
+		<result column="post_no" property="postNo" />
+		<result column="base_address" property="baseAddress" />
+		<result column="detail_address" property="detailAddress" />
+		<result column="email" property="email" />
+		<result column="password" property="password" />
+		<result column="photo" property="photo" />
+		<result column="nickname" property="nickname" />
+		<result column="tel" property="tel" />
+    <result column="grade" property="grade" />
+
+		<collection property="recipes" ofType="Recipe">
+			<id column="recipe_id" property="recipeNo" />
+			<result column="member_id" property="memberNo" />
+			<result column="title" property="title" />
+			<result column="created_date" property="createdDate" />
+			<result column="view_count" property="viewCount" />
+			<result column="content" property="content" />
+			<result column="thumbnail" property="thumbnail" />
+			<result column="category" property="category" />
+			<result column="tag" property="tag" />
+			<result column="other_info" property="otherInfo" />
+			<result column="scrap" property="scrap" />
+		</collection>
+	</resultMap>
+
+	<sql id="basicColumn">
+		select
+		member_id,
+		nickname,
+		email,
+		tel
+	</sql>
+
+	<insert id="insert" parameterType="Member">
+		insert into member
+		(
+		email,
+		password,
+		nickname,
+		tel
+		)
+		value
+		(
+		#{email},
+		password(#{password}),
+		#{nickname},
+		#{tel}
+		)
+	</insert>
+
+	<select id="findAll" parameterType="map" resultMap="MemberMap">
+		select * from member
+		limit #{offset}, #{pageSize}
+	</select>
+	
+
+	<select id="dupEmailCheck" parameterType="String"
+		resultType="int">
+		select count(*)
+		from member
+		where email = #{email}
+	</select>
+
+	<select id="dupNicknameCheck" parameterType="String"
+		resultType="int">
+		select count(*)
+		from member
+		where nickname = #{nickname}
+		<!-- 자기 자신을 제외한 닉네임을 찾는다. 내가 이미 쓰고 있는 닉네임이 아닌 다른사람이 쓰고 있는 닉네임만을 찾는다. -->
+		<!-- <if test="memberNo != null"> -->
+		<!-- and member_id = #{memberNo} -->
+		<!-- </if> -->
+	</select>
+
+	<select id="signEmailCheck" parameterType="String"
+		resultMap="MemberMap">
+		select *
+		from member
+		where email = #{email}
+	</select>
+
+	<select id="signPasswordCheck" parameterType="String"
+		resultType="int">
+		select count(*)
+		from member
+		where password = #{password}
+	</select>
+
+	<select id="findByEmailPassword" parameterType="map"
+		resultMap="MemberMap">
+		<include refid="basicColumn" />
+		,
+		photo,
+		post_no,
+		base_address,
+		detail_address,
+    grade
+		from member
+		where email =
+		#{email} and password = password(#{password})
+	</select>
+
+	<select id="findBy" parameterType="int" resultMap="MemberMap">
+		<include refid="basicColumn" />
+		,
+    grade,
+		photo,
+		post_no,
+		base_address,
+		detail_address,
+    grade
+		from member
+		where member_id =
+		#{memberNo}
+	</select>
+
+	<update id="update" parameterType="Member">
+		update member
+		<set>
+			<if test="email != null">email=#{email},</if>
+			<if test="password != null">password=password(#{password}), </if>
+			<if test="nickname != null">nickname=#{nickname},</if>
+			<if test="tel != null">tel=#{tel},</if>
+			<if test="photo != null">photo=#{photo},</if>
+			<if test="postNo != null">post_no=#{postNo},</if>
+			<if test="baseAddress != null">base_address=#{baseAddress},</if>
+			<if test="detailAddress != null">detail_address=#{detailAddress}</if>
+		</set>
+		where member_id = #{memberNo}
+	</update>
+
+	<delete id="delete" parameterType="int">
+		delete from member
+		where
+		member_id = #{member.memberNo}
+	</delete>
+
+	<select id="chkPw" parameterType="map" resultType="int">
+		SELECT
+		count(*) FROM member
+		WHERE member_id = #{memberNo}
+		AND PASSWORD =
+		password(#{password})
+	</select>
+
+	<update id="uptPw" parameterType="map">
+		UPDATE member
+		SET PASSWORD =
+		password(#{password})
+		WHERE member_id =
+		#{memberNo}
+	</update>
+
+	<!-- find password - signin -->
+	<update id="findPw" parameterType="member">
+		select password from member
+		where email= #{email}
+	</update>
+	
+	<select id="findMyID" resultMap="MemberMap" resultType="String">
+    select * from member
+    where tel= #{tel}
+  </select>
+  
+  <select id="countAll" resultType="int">
+    select count(*) from member
+  </select>
+	
+</mapper>

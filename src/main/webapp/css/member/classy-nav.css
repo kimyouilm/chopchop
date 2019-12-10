@@ -1,0 +1,124 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+/* body { */
+/*  font-family: "Roboto", sans-serif; */
+/* } */
+ul, ol {
+	margin: 0;
+}
+
+ul li, ol li {
+	list-style: none;
+}
+
+img {
+	height: auto;
+}
+
+.chop-logo {
+	text-decoration: none !important;
+	font-size: 60px !important;
+	margin-left: 60% !important;
+	margin-bottom: 20px !important;
+	opacity: 0.7 !important;
+}
+
+.bg-img {
+	background-position: center center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	height: 20%;
+}
+
+.bg-transparent {
+	background-color: transparent !important;
+}
+
+.header-area .top-header-area .top-social-info {
+	position: relative;
+	z-index: 1;
+}
+
+.header-area .top-header-area .top-social-info a {
+	color: #ffffff;
+	font-size: 14px;
+	padding: 0 15px;
+}
+
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+	.header-area .top-header-area .top-social-info a {
+		padding: 0 10px;
+	}
+}
+
+.classy-nav-container {
+	position: relative;
+	z-index: 100;
+	background-color: #ffffff;
+	/* sticky */
+}
+
+.classy-nav-container * {
+	box-sizing: border-box;
+}
+
+.justify-content-between {
+	justify-content: space-between;
+}
+
+.justify-content-center {
+	justify-content: center;
+}
+
+.classy-navbar {
+	width: 100%;
+	height: 100%;
+	padding: 0.5em 2em;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	align-items: center;
+}
+
+.classy-navbar .nav-brand:focus, .classy-navbar .nav-brand:hover {
+	font-size: 26px;
+	font-weight: 500;
+}
+
+.classynav ul li {
+	display: inline-block;
+	clear: both;
+	position: inherit;
+	z-index: 10;
+}
+
+.classynav ul li a {
+	padding: 0 12px;
+	display: block;
+	height: 35px;
+	font-size: 14px;
+	line-height: 34px;
+	text-decoration: none;
+}
+
+/* button css */
+.classy-btn {
+	position: relative;
+	z-index: 1;
+	min-width: 120px;
+	padding: 0 25px;
+	line-height: 42px;
+	height: 42px;
+	border: 1px solid #b0c364;
+	color: black !important;
+	margin-left: 45px;
+	text-align: center;
+	border-radius: 50px;
+}
+
+.classy-btn:hover, .classy-btn:focus {
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}

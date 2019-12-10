@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitcamp.chopchop.dao.CommentDao">
+
+  <!-- 컬럼 이름과 자바 객체의 프로퍼티 이름을 연결한다. -->
+  <resultMap type="Comment" id="CommentMap">
+    <id column="comment_id" property="commentNo"/>
+    <result column="product_id" property="productNo"/>
+    <result column="member_id" property="memberNo"/>
+    <result column="title" property="title"/>
+    <result column="content" property="content"/>
+    <result column="created_date" property="createdDate"/>
+    <result column="answer" property="answer"/>
+  </resultMap>
+  
+  <resultMap type="Comment" id="CommentMemberMap">
+    <id column="comment_id" property="commentNo"/>
+    <result column="product_id" property="productNo"/>
+    <result column="member_id" property="memberNo"/>
+    <result column="title" property="title"/>
+    <result column="content" property="content"/>
+    <result column="created_date" property="createdDate"/>
+    <result column="answer" property="answer"/>
+    
+    <association property="member" javaType="Member">
+      <id column="member_id" property="memberNo"/>
+      <result column="post_no" property="postNo"/>
+      <result column="base_address" property="baseAddress"/>
+      <result column="detail_address" property="detailAddress"/>
+      <result column="email" property="email"/>
+      <result column="password" property="password"/>
+      <result column="photo" property="photo"/>
+      <result column="nickname" property="nickname"/>
+      <result column="tel" property="tel"/>
+    </association>
+  </resultMap>
+  
+  
+  <select id="findAll" parameterType="int" resultMap="CommentMap">
+    select
+      c.product_id,
+      c.comment_id,
+      c.title,
+      c.content,
+      c.created_date,
+      m.nickname,
+      p.product_id
+    from
+      product_comment c 
+        left outer join member m on c.member_id=m.member_id
+        left outer join product p on c.product_id=p.product_id
+    order by c.comment_id desc
+  </select>
+  
+  <select id="findBy" parameterType="int" resultMap="CommentMap">
+    select
+      comment_id,
+      member_id,
+      title,
+      content,
+      created_date,
+      product_id
+    from
+      product_comment
+    where
+      comment_id=#{value}
+  </select>
+  
+  <select id="findByProductWith" parameterType="int" resultMap="CommentMemberMap">
+    select
+      c.comment_id,
+      c.member_id,
+      c.title,
+      c.content,
+      c.created_date,
+      c.answer,
+      p.product_id,
+      m.nickname
+    from
+      product_comment c
+        left outer join product p on c.product_id=p.product_id
+        left outer join member m on c.member_id=m.member_id
+    where
+      c.product_id=#{value}
+  </select>
+  
+  <insert id="insert" parameterType="Comment" useGeneratedKeys="true" keyColumn="comment_id" keyProperty="commentNo">
+    insert into product_comment(product_id, member_id, title, content, created_date)
+    values(#{productNo}, #{memberNo}, #{title}, #{content}, now())
+  </insert>
+  
+  <update id="update" parameterType="Comment">
+    update product_comment set
+      title=#{title},
+      content=#{content}
+    where comment_id=#{commentNo}
+  </update>
+  
+  <delete id="deleteAll" parameterType="int">
+    delete from product_comment
+    where product_id=#{value}
+  </delete>
+  
+  <delete id="commentDelete" parameterType="int">
+    delete from product_comment
+    where comment_id=#{value}
+  </delete>
+  
+  <update id="insertAnswer" parameterType="Comment">
+    update 
+      product_comment
+    set
+      answer=#{answer}
+    where
+      comment_id=#{commentNo}
+  </update>
+</mapper>

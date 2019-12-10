@@ -1,0 +1,180 @@
+/* :: 2.0 Import All CSS */
+
+@import url(/node_modules/bootstrap/dist/css/bootstrap.min.css);
+
+p {
+  color: #7a7a7a;
+  font-size: 14px;
+  line-height: 2;
+  font-weight: 500; }
+
+a.chop-logo {
+  font-weight: bold;
+}
+
+a,
+a:hover,
+a:focus {
+  -webkit-transition-duration: 500ms;
+  transition-duration: 500ms;
+  text-decoration: none;
+  outline: 0 solid transparent;
+  color: #000000;
+  font-weight: 600;
+  font-size: 16px; }
+
+ul,
+ol {
+  margin: 0; }
+  ul li,
+  ol li {
+    list-style: none; }
+
+img {
+  height: auto;
+  max-width: 100%; }
+
+/* :: 3.1.0 Spacing */
+
+
+.mb-30 {
+  margin-bottom: 30px !important; }
+
+.mb-50 {
+  margin-bottom: 50px !important; }
+
+.mb-70 {
+  margin-bottom: 70px !important; }
+
+.mb-100 {
+  margin-bottom: 100px !important; }
+
+.ml-15 {
+  margin-left: 15px !important; }
+
+
+/* :: 3.3.0 Section Padding */
+
+.section-padding-100-0 {
+  padding-top: 100px;
+  padding-bottom: 0; }
+
+/* :: 10.0 Blog Area CSS */
+
+.post-details-content {
+  position: relative;
+  z-index: 1; }
+  .post-details-content .blog-thumbnail {
+    -webkit-transition-duration: 500ms;
+    transition-duration: 500ms;
+    position: relative;
+    z-index: 1; }
+    .post-details-content .blog-thumbnail img {
+      width: 100%; }
+  .post-details-content .blog-content {
+    position: relative;
+    z-index: 1; }
+    .post-details-content .blog-content .post-tag {
+      font-size: 12px;
+      font-weight: 600;
+      color: #b0c364;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+      display: block;
+      -webkit-transition-duration: 500ms;
+      transition-duration: 500ms; }
+    .post-details-content .blog-content .post-title {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 15px;
+      transition-duration: 500ms; }
+      @media only screen and (max-width: 767px) {
+        .post-details-content .blog-content .post-title {
+          font-size: 18px; } }
+    .post-details-content .blog-content .post-meta {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 30px; }
+      .post-details-content .blog-content .post-meta a {
+        -webkit-transition-duration: 500ms;
+        transition-duration: 500ms;
+        position: relative;
+        z-index: 1;
+        display: inline-block;
+        color: #7a7a7a;
+        font-size: 15px;
+        font-weight: 600;
+        text-transform: uppercase; }
+        .post-details-content .blog-content .post-meta a:first-child {
+          margin-right: 20px; }
+          .post-details-content .blog-content .post-meta a:first-child::after {
+            position: absolute;
+            z-index: 5;
+            top: 0;
+            right: -14px;
+            content: "/"; }
+
+/* :: 11.0 Ingredients Area CSS */
+.recipe-info {
+  position: relative;
+  z-index: 1;
+  background-color: #b0c364;
+  padding: 20px 10px;
+  margin-bottom: 30px; }
+  .recipe-info h5 {
+    color: #ffffff;
+    margin-bottom: 50px;
+    font-size: 18px;
+    padding-left: 30px; }
+    .recipe-info .info-data li {
+      align-items: center;
+      padding: 5px 30px;
+      font-size: 16px;
+      font-weight: 600; }
+      .recipe-info .info-data li:last-child {
+        border-bottom: none; }
+      .recipe-info .info-data li span {
+        color: #ffffff;
+        padding-left: 15px; }
+
+.ingredients {
+  position: relative;
+  z-index: 1;
+  background-color: #ebf4f6;
+  padding: 50px 20px; }
+  .ingredients h5 {
+    color: #272727;
+    margin-bottom: 30px;
+    font-size: 18px;
+    padding-left: 30px; }
+  .ingredients .custom-control {
+    padding-left: 2.5rem;
+    margin-bottom: 5px;
+    min-height: 10px;
+    position: relative;
+    z-index: 1;
+    border-bottom: 1px solid #d6e1e4;
+    padding-bottom: 10px; }
+    .ingredients .custom-control .custom-control-label {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 0;
+      padding-top: 3px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #8b8b8b;
+      padding-left: 10px; }
+      .ingredients .custom-control .custom-control-label::before {
+        width: 22px;
+        height: 22px;
+        border: none;;
+        border-color: #d6e1e4;
+        background-color: #ffffff;
+        border-radius: 0; }
+      .ingredients .custom-control .custom-control-label::after {
+        top: 5px;
+        left: -23px;
+        width: 20px;
+        height: 20px; }
+  .ingredients .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #b0c364; }

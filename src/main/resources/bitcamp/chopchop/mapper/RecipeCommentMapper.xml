@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitcamp.chopchop.dao.RecipeCommentDao">
+
+  <resultMap type="RecipeComment" id="RecipeCommentMap">
+    <id column="comment_id" property="commentNo"/>
+    <result column="recipe_id" property="recipeNo"/>
+    <result column="member_id" property="memberNo"/>
+    <result column="content" property="content"/>
+    <result column="created_date" property="createdDate"/>
+  </resultMap>
+  
+  <select id="findAll" parameterType="map" resultMap="RecipeCommentMap">
+    select
+      comment_id, recipe_id, member_id, content, created_date
+    from recipe_comment
+    where recipe_id=#{no}
+    order by comment_id desc
+    limit #{offset}, #{pageSize}
+  </select>
+  
+  <select id="findBy" parameterType="int" resultMap="RecipeCommentMap">
+    select
+      comment_id, recipe_id, member_id, content, created_date
+    from recipe_comment
+    where comment_id=#{value}
+  </select>
+  
+  <insert id="insert" parameterType="RecipeComment" useGeneratedKeys="true" keyColumn="comment_id" keyProperty="commentNo">
+    insert into recipe_comment(recipe_id, member_id, content)
+    values(#{recipeNo}, #{memberNo}, #{content})
+  </insert>
+  
+  <update id="update" parameterType="RecipeComment">
+    update recipe_comment
+    <set>
+      <if test="content != null">content=#{content}</if>
+    </set>
+      where comment_id=#{commentNo}
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    delete from recipe_comment
+    where comment_id=#{value}
+  </delete>
+  
+  <delete id="deleteAll" parameterType="int">
+    delete from recipe_comment
+    where recipe_id=#{value}
+  </delete>
+  
+  <select id="countAll" parameterType="int" resultType="int">
+    select count(*) from recipe_comment
+    where recipe_id=#{value}
+  </select>
+  
+    <select id="recipeCommentList" parameterType="map" resultMap="RecipeCommentMap">
+    select
+      comment_id, recipe_id, member_id, content, created_date
+    from recipe_comment
+    order by comment_id desc
+    limit #{offset}, #{pageSize}
+  </select>
+
+</mapper>

@@ -1,0 +1,126 @@
+/* :: 2.0 Import All CSS */
+
+@import url('https://fonts.googleapis.com/css?family=Sunflower:300,500,700&display=swap&subset=korean');
+@import url(/css/common/bootstrap.min.css);
+
+/* :: 8.0 Footer Area CSS */
+.footer-area {
+	position: relative;
+	z-index: 1;
+	padding: 30px 0 50px 0;
+}
+
+.foot-container {
+  width:1100px !important;
+  margin: 0 auto !important;
+}
+  
+.foot-img {
+  text-align: center !important;
+}
+
+.foot-img img {
+  width: 150px;
+}
+
+.footer-area .copywrite-text {
+	font-size: 13px;
+	margin-bottom: 0;
+	color: #7a7a7a;
+	font-weight: 400;
+}
+
+.footer-area .copywrite-text a {
+	color: #7a7a7a;
+	font-size: 13px;
+	font-weight: 400;
+}
+
+.footer-area .footer-nav {
+  
+	position: relative;
+	z-index: 1;
+	display: block;
+}
+
+.footer-nav span {
+  color: #7a7a7a; 
+  font-size: 13px;
+  line-height: 2;
+  font-weight: 500; }
+
+ul li, ol li {
+  list-style: none;
+}
+
+.footer-area .footer-nav ul {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	padding: 0;
+	
+}
+
+@media only screen and (max-width: 767px) {
+	.footer-area .footer-nav ul {
+		-webkit-box-pack: start;
+		-ms-flex-pack: start;
+		justify-content: flex-start;
+		margin-top: 30px;
+	}
+}
+
+@media only screen and (min-width: 576px) and (max-width: 767px) {
+	.footer-area .footer-nav ul {
+		margin-top: 0;
+	}
+}
+
+.footer-area .footer-nav li a {
+	position: relative;
+	z-index: 1;
+	color: #7a7a7a;
+	font-size: 13px;
+	margin: 0 15px 0 0;
+	font-weight: 400;
+	text-decoration: none;
+	padding: 0;
+}
+
+@media only screen and (max-width: 767px) {
+	.footer-area .footer-nav li a {
+		padding: 0 2px;
+		margin: 0 3px;
+	}
+} 
+
+.footer-area .footer-nav li a::after {
+	-webkit-transition-duration: 500ms;
+	transition-duration: 500ms;
+	width: 100%;
+	height: 3px;
+	background-color: #b0c364; 
+	bottom: -3px;
+	left: 0;
+	right: 0;
+	z-index: -1;
+	position: absolute;
+	content: '';
+	visibility: hidden;
+	opacity: 0;
+}
+
+.footer-area .footer-nav li a:hover, .footer-area .footer-nav li a:focus
+	{
+	color: #b0c364;
+}
+
+.footer-area .footer-nav li.active a::after, .footer-area .footer-nav li:hover a::after
+	{
+	visibility: visible;
+	opacity: 1;
+}
+
+/* ====== The End ====== */
+
+/*# sourceMappingURL=style.css.map */

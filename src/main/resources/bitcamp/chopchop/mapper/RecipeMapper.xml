@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitcamp.chopchop.dao.RecipeDao">
+  
+  <resultMap type="Recipe" id="RecipeMap">
+    <id column="recipe_id" property="recipeNo"/>
+    <result column="member_id" property="memberNo"/>
+    <result column="title" property="title"/>
+    <result column="created_date" property="createdDate"/>
+    <result column="view_count" property="viewCount"/>
+    <result column="content" property="content"/>
+    <result column="thumbnail" property="thumbnail"/>
+    <result column="category" property="category"/>
+    <result column="tag" property="tag"/>
+    <result column="other_info" property="otherInfo"/>
+    <result column="scrap" property="scrap"/>
+  </resultMap>
+  
+  <resultMap type="Recipe" id="RecipeWithIngredientMap">
+    <id column="recipe_id" property="recipeNo"/>
+    <result column="member_id" property="memberNo"/>
+    <result column="title" property="title"/>
+    <result column="created_date" property="createdDate"/>
+    <result column="view_count" property="viewCount"/>
+    <result column="content" property="content"/>
+    <result column="thumbnail" property="thumbnail"/>
+    <result column="category" property="category"/>
+    <result column="tag" property="tag"/>
+    <result column="other_info" property="otherInfo"/>
+    <result column="scrap" property="scrap"/>
+    <!-- 자식 테이블의 데이터와 Ingredient 객체 연결 -->
+    <collection property="ingredients" ofType="Ingredient">
+      <id column="ingredient_id" property="ingredientNo"/>
+      <result column="recipe_id" property="recipeNo"/>
+      <result column="ingredient" property="name"/>
+      <result column="quantity" property="quantity"/>
+    </collection>
+  </resultMap>
+  
+  <resultMap type="Recipe" id="TotalRecipeMap">
+    <id column="recipe_id" property="recipeNo"/>
+    <result column="member_id" property="memberNo"/>
+    <result column="title" property="title"/>
+    <result column="created_date" property="createdDate"/>
+    <result column="view_count" property="viewCount"/>
+    <result column="rc" property="content"/>
+    <result column="thumbnail" property="thumbnail"/>
+    <result column="category" property="category"/>
+    <result column="tag" property="tag"/>
+    <result column="other_info" property="otherInfo"/>
+    <result column="scrap" property="scrap"/>
+    <!-- 자식 테이블의 데이터와 Ingredient 객체 연결 -->
+    <collection property="ingredients" ofType="Ingredient">
+      <id column="ingredient_id" property="ingredientNo"/>
+      <result column="recipe_id" property="recipeNo"/>
+      <result column="ingredient" property="name"/>
+      <result column="quantity" property="quantity"/>
+    </collection>
+    <!-- 자식 테이블 Cooking 객체 연결 -->
+    <collection property="cookings" ofType="Cooking">
+      <id column="cooking_id" property="cookingNo"/>
+      <result column="recipe_id" property="recipeNo"/>
+      <result column="process_no" property="processNo"/>
+      <result column="file_path" property="filePath"/>
+      <result column="cc" property="content"/>
+    </collection>
+    <!-- 자식 테이블 RecipeLike 객체 연결 -->
+    <collection property="recipeLikes" ofType="RecipeLike">
+      <id column="like_id" property="recipeLikeNo"/>
+      <result column="recipe_id" property="recipeNo"/>
+      <result column="member_id" property="memberNo"/>
+    </collection>
+    
+    <!--  Member 객체 연결 -->
+    <collection property="members" ofType="Member">
+      <id column="member_id" property="memberNo"/>
+      <result column="nickname" property="nickname"/>
+    </collection>
+  </resultMap>
+  
+  <select id="findAll" resultMap="RecipeMap" parameterType="map">
+    select
+      recipe_id,
+      member_id,
+      title,
+      created_date, 
+      view_count,
+      thumbnail,
+      other_info,
+      category,
+      content,
+      tag,
+      scrap
+    from
+      recipe
+    order by
+      recipe_id desc
+    limit #{offset}, #{pageSize}
+  </select>
+  
+  <select id="findSort" parameterType="String" resultMap="RecipeMap">
+   select
+     recipe_id,
+     member_id,
+     title,
+     created_date,
+     view_count,
+     thumbnail,
+     category,
+     other_info,
+     scrap,
+     content
+   from 
+     recipe
+   order by ${column} desc
+  </select>
+  
+  <select id="findBy" parameterType="int" resultMap="RecipeMap">
+    select
+      recipe_id,
+      member_id,
+      title,
+      created_date, 
+      view_count,
+      content,
+      thumbnail,
+      category,
+      tag,
+      other_info,
+      scrap
+    from
+      recipe
+    where recipe_id=#{value}
+  </select>
+  
+  <select id="findByTag" parameterType="string" resultMap="RecipeMap">
+  <bind name="pattern" value="'%' + _parameter + '%'"/>
+    select
+    recipe_id,
+    member_id,
+    title,
+    created_date, 
+    view_count,
+    content,
+    thumbnail,
+    category,
+    tag,
+    other_info,
+    scrap
+  from
+    recipe
+  where tag like #{pattern}
+  </select>
+
+  <select id="findWithIngredientBy" parameterType="int" resultMap="RecipeWithIngredientMap">
+    select
+      r.recipe_id,
+      r.member_id,
+      r.title,
+      r.created_date,
+      r.view_count,
+      r.content,
+      r.thumbnail,
+      r.category,
+      r.tag,
+      r.other_info,
+      i.ingredient_id,
+      i.ingredient,
+      i.quantity
+    from recipe r
+      left outer join ingredient i on r.recipe_id=i.recipe_id
+    where 
+      r.recipe_id=#{value}
+  </select>
+  
+    <select id="findTotalBy" parameterType="int" resultMap="TotalRecipeMap">
+    select
+      r.recipe_id,
+      r.member_id,
+      r.title,
+      r.created_date,
+      r.view_count,
+      r.content rc,
+      r.thumbnail,
+      r.category,
+      r.tag,
+      r.scrap,
+      r.other_info,
+      i.ingredient_id,
+      i.ingredient,
+      i.quantity,
+      c.cooking_id,
+      c.process_no,
+      c.file_path,
+      c.content cc
+    from recipe r
+      left outer join ingredient i on r.recipe_id=i.recipe_id
+      left outer join cooking c on r.recipe_id=c.recipe_id
+    where 
+      r.recipe_id=#{value}
+    order by c.process_no asc
+  </select>
+  
+  <insert id="insert" parameterType="Recipe"
+          useGeneratedKeys="true" keyColumn="recipe_id" keyProperty="recipeNo">
+    insert into 
+    recipe
+    (member_id,title,content,thumbnail,category,tag,other_info)        
+    values
+    (#{memberNo},#{title},#{content},#{thumbnail},#{category},#{tag},#{otherInfo})
+  </insert>
+  
+  <update id="increaseViewCount" parameterType="int">
+    update recipe set
+      view_count = view_count + 1
+    where
+      recipe_id=#{value}
+  </update>
+  
+  <update id="update" parameterType="Recipe">
+    update recipe
+    <set>
+      <if test="title != null">title=#{title},</if>
+      <if test="content != null">content=#{content},</if>
+      <if test="thumbnail != null">thumbnail=#{thumbnail},</if>
+      <if test="category != null">category=#{category},</if>
+      <if test="tag != null">tag=#{tag},</if>
+      <if test="otherInfo != null">other_info=#{otherInfo}</if>
+    </set>
+    where
+      recipe_id=#{recipeNo}
+  </update>
+  
+  <update id="increaseScrapCount" parameterType="int">
+    update recipe set
+      scrap = scrap + 1
+    where
+      recipe_id=#{value}
+  </update>
+  
+    <update id="decreaseScrapCount" parameterType="int">
+    update recipe set
+      scrap = scrap - 1
+    where
+      recipe_id=#{value}
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    delete from recipe
+    where recipe_id=#{value}
+  </delete>
+  
+  <select id="countAll" resultType="int">
+    select count(*) from recipe;
+  </select>
+  
+  <!-- ========================================================================== -->
+  
+  <select id="mainTop" resultMap="TotalRecipeMap">
+    SELECT 
+      r.recipe_id,
+      r.member_id,
+      r.title,
+      r.created_date,
+      r.view_count,
+      r.content,
+      r.thumbnail,
+      r.category,
+      r.tag,
+      r.scrap,
+      r.other_info,
+      m.member_id, 
+      m.nickname
+    FROM 
+      recipe r left join member m on r.member_id = m.member_id  
+    ORDER BY view_count DESC LIMIT 5
+  </select>
+  
+  <select id="findAllPaging" resultMap="RecipeMap" parameterType="map">
+    select
+      recipe_id,
+      member_id,
+      title,
+      created_date, 
+      view_count,
+      thumbnail,
+      other_info,
+      category,
+      content,
+      tag,
+      scrap
+    from
+      recipe
+    order by
+      recipe_id desc
+    limit #{offset}, #{pageSize}
+  </select>
+
+ </mapper>
+

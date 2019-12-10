@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitcamp.chopchop.dao.EventPhotoFileDao">
+
+  <resultMap type="EventPhotoFile" id="EventPhotoFileMap">
+    <id column="photo_id" property="photoNo"/>
+    <result column="event_id" property="eventNo"/>
+    <result column="file_path" property="filePath"/>
+  </resultMap>
+  
+  <select id="findAll" parameterType="int" resultMap="EventPhotoFileMap">
+    select 
+      photo_id,
+      event_id,
+      file_path
+    from 
+      photo
+    where 
+      event_id=#{value}
+    order by
+      photo_id asc
+  </select>
+  
+  <insert id="insert" parameterType="EventPhotoFile">
+    insert into photo(event_id, file_path)
+    values(#{eventNo},#{filePath})
+  </insert>
+  
+  <delete id="deleteAll" parameterType="int">
+    delete from photo
+    where event_id=#{value}
+  </delete>
+
+</mapper>

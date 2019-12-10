@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitcamp.chopchop.dao.ProductOptionDao">
+
+  <resultMap type="ProductOption" id="ProductOptionMap">
+    <id column="option_id" property="optionNo"/>
+    <result column="product_id" property="productNo"/>
+    <result column="title" property="title"/>
+    <result column="price" property="price"/>
+  </resultMap>
+  
+  <insert id="insert" parameterType="ProductOption" useGeneratedKeys="true" keyColumn="product_option_id" keyProperty="optionNo">
+    insert into product_option(product_id, title, price)
+    values(#{productNo}, #{title}, #{price})
+  </insert>
+  
+  <select id="findAll" resultMap="ProductOptionMap">
+    select 
+      option_id,
+      product_id,
+      title,
+      price
+    from 
+      product_option
+    order by
+      option_id asc
+  </select>
+  
+  <select id="findWithProduct" parameterType="int" resultMap="ProductOptionMap">
+    select
+      option_id,
+      product_id,
+      title,
+      price
+    from
+      product_option
+    where
+      product_id=#{value}
+  </select>
+  
+  <select id="findBy" parameterType="int" resultMap="ProductOptionMap">
+    select
+      option_id,
+      product_id,
+      title,
+      price
+    from
+      product_option
+    where
+      option_id=#{value}
+  </select>
+  
+  <update id="update" parameterType="ProductOption">
+    update
+      product_option
+    set
+      product_id=#{productNo},
+      title=#{title},
+      price=#{price}
+    where
+      option_id=#{optionNo}
+  </update>
+  
+  
+  <delete id="delete" parameterType="int">
+    delete from product_option
+    where option_id=#{value}
+  </delete>
+
+  <delete id="deleteAll" parameterType="int">
+    delete from product_option
+    where product_id=#{value}
+  </delete>
+
+</mapper>

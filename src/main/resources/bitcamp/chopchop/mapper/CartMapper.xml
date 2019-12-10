@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitcamp.chopchop.dao.CartDao">
+
+  <resultMap type="Cart" id="CartMap">
+    <id column="cart_id" property="cartNo"/>
+    <result column="member_id" property="memberNo"/>
+    <result column="product_id" property="productNo"/>
+    <result column="option_id" property="optionNo"/>
+    <result column="quantity" property="quantity"/>
+    <result column="created_date" property="createdDate"/>
+  </resultMap>
+
+   <resultMap type="Cart" id="findWithCartMap">
+    <id column="cart_id" property="cartNo"/>
+    <result column="option_id" property="optionNo"/>
+    <result column="member_id" property="memberNo"/>
+    <result column="product_id" property="productNo"/>
+    <result column="quantity" property="quantity"/>
+    <result column="created_date" property="createdDate"/>
+
+    <collection property="products" ofType="Product">
+      <id column="product_id" property="productNo"/>
+      <result column="title" property="title"/>
+      <result column="price" property="price"/>
+      <result column="detail" property="detail"/>
+      <result column="stock" property="stock"/>
+      <result column="discount" property="discount"/>
+      <result column="category" property="category"/>
+      <result column="species" property="species"/>
+      <result column="view_count" property="viewCount"/>
+    </collection>
+
+    <collection property="files" ofType="PhotoFile">
+      <id column="photo_id" property="photoFileNo"/>
+      <result column="file_path" property="filePath"/>
+      <result column="product_id" property="productNo"/>
+    </collection>
+
+    <collection property="options" ofType="ProductOption">
+      <id column="option_id" property="optionNo"/>
+      <result column="product_id" property="productNo"/>
+      <result column="optionTitle" property="title"/>
+      <result column="optionPrice" property="price"/>
+    </collection>
+    
+    <collection property="members" ofType="Member">
+      <id column="member_id" property="memberNo"/>
+      <result column="password" property="password"/>
+      <result column="email" property="email"/>
+      <result column="photo" property="photo"/>
+      <result column="nickname" property="nickname"/>
+      <result column="tel" property="tel"/>
+      <result column="post_no" property="postNo"/>
+      <result column="base_address" property="baseAddress"/>
+      <result column="detail_address" property="detailAddress"/>
+      <result column="grade" property="grade"/>
+    </collection>
+  </resultMap>
+
+
+<!--   <resultMap type="Cart" id="findWithOptionMap"> -->
+<!--     <id column="cart_id" property="CartNo"/> -->
+<!--     <result column="option_id" property="optionNo"/> -->
+<!--     <result column="member_id" property="memberNo"/> -->
+<!--     <result column="product_id" property="productNo"/> -->
+<!--     <result column="quantity" property="quantity"/> -->
+<!--     <result column="created_date" property="createdDate"/> -->
+    
+<!--     <association property="productOption" javaType="ProductOption"> -->
+<!--       <id column="option_id" property="optionNo"/> -->
+<!--       <result column="product_id" property="productNo"/> -->
+<!--       <result column="optionTitle" property="title"/> -->
+<!--       <result column="optionPrice" property="price"/> -->
+<!--     </association> -->
+<!--   </resultMap> -->
+  
+
+  <select id="findAll" resultMap="CartMap">
+    select
+      cart_id,
+      member_id,
+      product_id,
+      option_id,
+      quantity,
+      created_date
+    from 
+      cart    
+    order by cart_id desc
+  </select>
+  
+  <select id="findBy" parameterType="int" resultMap="CartMap">
+    select
+      cart_id,
+      member_id,
+      product_id,
+      option_id,
+      quantity,
+      created_date
+    from
+      cart
+    where
+      cart_id=#{value}
+  </select>
+  
+  <select id="findByKeyword"
+          parameterType="int"
+          resultMap="findWithCartMap">
+    select
+      c.cart_id,
+      c.option_id,
+      c.quantity,
+      c.created_date,
+      c.member_id,
+      p.product_id,
+      p.title,
+      p.price,
+      p.discount,
+      f.photo_id,
+      f.file_path,
+      o.option_id,
+      o.title optionTitle,
+      o.price optionPrice
+    from 
+      cart c
+        left join product p on c.product_id=p.product_id
+        left join store_photo f on p.product_id=f.product_id
+        left join product_option o on c.option_id=o.option_id
+    where c.member_id like #{memberNo}
+    order by cart_id desc, photo_id
+  </select>
+  
+  <insert id="insert" parameterType="Cart" useGeneratedKeys="true" keyColumn="cart_id" keyProperty="cartNo">
+    insert into cart(member_id, product_id, option_id, quantity)
+    values(#{memberNo},#{productNo},#{optionNo},#{quantity}) 
+  </insert>
+  
+  <update id="update" parameterType="Cart">
+    update cart set
+      quantity=#{quantity}
+    where cart_id=#{cartNo}
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    delete from cart
+    where cart_id=#{cartNo}
+  </delete>
+  
+  <delete id="deleteAll" parameterType="int">
+    delete from 
+      cart
+    where
+      product_id=#{value}
+  </delete>
+  
+
+</mapper>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+                      http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+  version="4.0" metadata-complete="false">
+
+  <description>
+    chop
+  </description>
+
+  <display-name>chopchop</display-name>
+
+  <filter>
+    <filter-name>AuthFilter</filter-name>
+    <filter-class>bitcamp.chopchop.filter.AuthFilter</filter-class>
+    <init-param>
+      <param-name>path</param-name>
+      <param-value>searchbymember, memberadd</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>AuthFilter</filter-name>
+    <url-pattern>/app/*</url-pattern>
+  </filter-mapping>
+  
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+  </welcome-file-list>
+
+</web-app>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

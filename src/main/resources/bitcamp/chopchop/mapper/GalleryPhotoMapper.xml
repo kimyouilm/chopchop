@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitcamp.chopchop.dao.GalleryPhotoDao">
+  <resultMap type="GalleryPhoto" id="GalleryPhotoMap">
+    <id column="photo_id" property="photoNo"/>
+    <result column="gallery_id" property="galleryNo"/>
+    <result column="file_path" property="filePath"/>
+  </resultMap>
+  
+    <select id="findAll" parameterType="int" resultMap="GalleryPhotoMap">
+    select 
+      photo_id, gallery_id, file_path
+    from 
+      gallery_photo
+    where 
+      gallery_id=#{value}
+  </select>
+  
+  <insert id="insert" parameterType="GalleryPhoto">
+    insert into gallery_photo(gallery_id,file_path)
+    values(#{galleryNo}, #{filePath})
+  </insert>
+  
+  <delete id="deleteAll" parameterType="int">
+    delete from gallery_photo
+    where gallery_id=#{value}
+  </delete>
+</mapper>
+  

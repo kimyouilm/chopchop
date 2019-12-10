@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitcamp.chopchop.dao.OrderProductDao">
+
+  <!-- 컬럼 이름과 자바 객체의 프로퍼티 이름을 연결한다. -->
+  <resultMap type="OrderProduct" id="OrderProductMap">
+    <id column="order_product_id" property="orderProductNo"/>
+    <result column="order_id" property="orderNo"/>
+    <result column="product_id" property="productNo"/>
+    <result column="quantity" property="quantity"/>
+    <result column="option_id" property="optionNo"/>
+    <result column="discount_price" property="discountPrice"/>
+    
+    <association property="product" javaType="Product">
+      <id column="product_id" property="productNo"/>
+      <result column="title" property="title"/>
+      <result column="price" property="price"/>
+      <result column="detail" property="detail"/>
+      <result column="stock" property="stock"/>
+      <result column="discount" property="discount"/>
+      <result column="view_count" property="viewCount"/>
+      <result column="category" property="category"/>
+      <result column="species" property="species"/>
+    </association>
+    
+    <association property="order" javaType="Order">
+      <id column="order_id" property="orderNo"/>
+      <result column="member_id" property="memberNo"/>
+      <result column="post_no" property="postNo"/>
+      <result column="base_address" property="baseAddress"/>
+      <result column="detail_address" property="detailAddress"/>
+      <result column="payment_date" property="paymentDate"/>
+      <result column="payment_method" property="paymentMethod"/>
+      <result column="ship_status" property="shipStatus"/>
+      <result column="invoice" property="invoice"/>
+    </association>
+  </resultMap>
+  
+  <select id="findByOrderWith" parameterType="int" resultMap="OrderProductMap">
+    select
+      order_id,
+      product_id,
+      quantity,
+      option_id,
+      discount_price
+    from
+      order_product
+    where
+      order_id=#{value};
+  </select>
+  
+    <select id="findByMemberWith" parameterType="int" resultMap="OrderProductMap">
+    select
+      op.order_id,
+      op.product_id,
+      op.quantity,
+      op.option_id,
+      op.discount_price,
+      o.member_id
+    from
+      order_product op
+        left outer join store_order o on op.order_id=o.order_id
+    where
+      member_id=#{value};
+  </select>
+  
+  <insert id="insert" parameterType="OrderProduct" useGeneratedKeys="true" keyColumn="order_product_id" keyProperty="orderProductNo">
+    insert into order_product(order_id, product_id, option_id, quantity, discount_price)
+    values(#{orderNo}, #{productNo}, #{optionNo}, #{quantity},#{discountPrice}) 
+  </insert>
+
+  <delete id="delete" parameterType="int">
+    delete from order_product
+    where order_id=#{value}
+  </delete>
+  
+<!--   <select id="findBy" parameterType="int" resultMap="OrderProductMap"> -->
+<!--     select  -->
+<!--       order_id, -->
+<!--       product_id, -->
+<!--       quantity, -->
+<!--       discount_price -->
+<!--     from  -->
+<!--       order_product -->
+<!--     order by -->
+<!--       order_id desc -->
+<!--   </select> -->
+  
+</mapper>

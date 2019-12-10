@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitcamp.chopchop.dao.ProductReviewDao">
+
+  <resultMap type="ProductReview" id="ProductReviewMap">
+    <id column="product_review_id" property="productReviewNo"/>
+    <result column="product_id" property="productNo"/>
+    <result column="member_id" property="memberNo"/>
+    <result column="file_path" property="filePath"/>
+    <result column="content" property="content"/>
+    <result column="rating" property="rating"/>
+    <result column="created_date" property="createdDate"/>
+  </resultMap>
+
+ <resultMap type="ProductReview" id="findProductReviewMap">
+    <id column="product_review_id" property="productReviewNo"/>
+    <result column="product_id" property="productNo"/>
+    <result column="member_id" property="memberNo"/>
+    <result column="file_path" property="filePath"/>
+    <result column="content" property="content"/>
+    <result column="rating" property="rating"/>
+    <result column="created_date" property="createdDate"/>
+
+    <collection property="members" ofType="Member">
+    <id column="member_id" property="memberNo"/>
+    <result column="post_no" property="postNo"/>
+    <result column="base_address" property="baseAddress"/>
+    <result column="detail_address" property="detailAddress"/>
+    <result column="email" property="email"/>
+    <result column="password" property="password"/>
+    <result column="photo" property="photo"/>
+    <result column="nickname" property="nickname"/>
+    <result column="tel" property="tel"/>
+    </collection>
+    
+    <collection property="products" ofType="Product">
+      <id column="product_id" property="productNo"/>
+      <result column="title" property="title"/>
+    </collection>
+
+    <collection property="options" ofType="ProductOption">
+      <id column="option_id" property="optionNo"/>
+      <result column="product_id" property="productNo"/>
+      <result column="otitle" property="title"/>
+    </collection>
+
+  </resultMap>  
+  
+  <select id="findAll" parameterType="int" resultMap="ProductReviewMap">
+    select
+      product_review_id,
+      product_id,
+      member_id,
+      file_path,
+      content,
+      rating,
+      created_date
+    from
+      product_review
+    order by product_review_id
+  </select>
+  
+  <select id="findByProductReview" parameterType="int" resultMap="findProductReviewMap">
+    select
+      r.product_review_id,
+      r.product_id,
+      r.member_id,
+      r.file_path,
+      r.content,
+      r.rating,
+      r.created_date,
+      m.nickName,
+      m.member_id
+    from
+      product_review r
+      left outer join member m on r.member_id = m.member_id
+    where
+      product_id=#{value}
+    order by product_review_id desc
+  </select>
+
+  <select id="findBy" parameterType="int" resultMap="ProductReviewMap">
+    select
+      product_review_id,
+      product_id,
+      member_id,
+      file_path,
+      content,
+      rating,
+      created_date
+    from
+      product_review
+    where
+      product_review_id=#{value}
+  </select>
+  
+  <insert id="insert" parameterType="ProductReview">
+    insert into product_review(product_id, member_id, file_path, content, rating)
+    values(#{productNo}, #{memberNo}, #{filePath}, #{content}, #{rating})
+  </insert>
+  
+  <update id="update" parameterType="ProductReview">
+    update product_review set
+      file_path=#{filePath},
+      content=#{content},
+      rating=#{rating}
+    where product_review_id=#{productReviewNo}
+  </update>
+  
+  <delete id="deleteAll" parameterType="int">
+    delete from product_review
+    where product_id=#{productNo}
+  </delete>
+  
+  <delete id="delete" parameterType="int">
+    delete from product_review
+    where product_review_id=#{productReviewNo}
+  </delete>
+  
+  <!-- ================================================================================== -->
+  
+  <select id="myreview" parameterType="int" resultMap="findProductReviewMap">
+    select
+      r.product_review_id,
+      r.product_id,
+      r.member_id,
+      r.file_path,
+      r.content,
+      r.rating,
+      r.created_date,
+      m.member_id, 
+      p.title, 
+      o.title otitle
+    from
+      product_review r
+      left outer join member m on r.member_id = m.member_id
+      left outer join product p on p.product_id = r.product_id
+      left outer join product_option o on p.product_id = o.product_id
+      
+    where
+      m.member_id=#{value}
+    order by r.created_date desc
+  </select>
+  
+  <select id="storeReview" parameterType="map" resultMap="findProductReviewMap">
+    select
+      r.product_review_id,
+      r.product_id,
+      r.member_id,
+      r.file_path,
+      r.content,
+      r.rating,
+      r.created_date,
+      m.member_id, 
+      m.nickname,
+      p.title, 
+      o.title otitle
+    from
+      product_review r
+      left outer join member m on r.member_id = m.member_id
+      left outer join product p on p.product_id = r.product_id
+      left outer join product_option o on p.product_id = o.product_id
+
+    order by r.created_date desc
+    limit #{offset}, #{pageSize}
+  </select>
+  
+   <select id="size" resultType="int">
+    select count(*) from product
+  </select>
+  
+</mapper>

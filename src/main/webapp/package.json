@@ -1,0 +1,26 @@
+{
+  "name": "webapp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "alertifyjs": "^1.11.2",
+    "blueimp-file-upload": "^9.34.0",
+    "bootstrap": "^4.3.1",
+    "handlebars": "^4.5.2",
+    "jquery": "^3.4.1",
+    "jquery-ui": "^1.12.1",
+    "jquery-ui-dist": "^1.12.1",
+    "popper.js": "^1.15.0",
+    "sweetalert": "^2.1.2"
+  },
+  "devDependencies": {},
+  "description": ""
+}

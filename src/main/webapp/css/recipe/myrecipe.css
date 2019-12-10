@@ -1,0 +1,76 @@
+.rInfo {
+  border-bottom: 2px solid #404040;
+  padding-bottom: 5px;
+}
+
+.mypage-tagA {
+  font-size: inherit;
+  color:#404040;
+}
+  
+.rInfo-span {
+  float: right;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.recipe-h3 {
+  font-family: 'Oswald' !important;
+  text-transform: uppercase;
+  font-size: 37px !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+  margin: 0 0 8px !important;
+}
+
+.w2-content {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.w2-main {
+    transition: margin-left .4s;
+}
+
+.r-tagA {
+  -webkit-transition-duration: 500ms;
+  transition-duration: 500ms;
+  outline: 0 solid transparent;
+  color: #404040 !important;
+  font-weight: 600;
+  font-size: 22px;
+}
+
+.w2-container:after,
+.w2-container:before,
+.w2-panel:after,
+.w2-panel:before,
+.w2-row:after,
+.w2-row:before,
+.w2-row-padding:after,
+.w2-row-padding:before,
+.w2-cell-row:before,
+.w2-cell-row:after,
+.w2-clear:after,
+.w2-clear:before,
+.w2-bar:before,
+.w2-bar:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.w2-row-padding {
+    padding: 0;
+}
+
+.w2-center {
+    width: auto;
+    text-align: center !important;
+}
+
+.w2-quarter {
+    float: left;
+    width: 100%;
+    width: 24.99999%;
+}

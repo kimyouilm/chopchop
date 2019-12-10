@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitcamp.chopchop.dao.OrderDao">
+
+  <!-- 컬럼 이름과 자바 객체의 프로퍼티 이름을 연결한다. -->
+  <resultMap type="Order" id="OrderMap">
+    <id column="order_id" property="orderNo"/>
+    <result column="member_id" property="memberNo"/>
+    <result column="name" property="name"/>
+    <result column="tel" property="tel"/>
+    <result column="post_no" property="postNo"/>
+    <result column="base_address" property="baseAddress"/>
+    <result column="detail_address" property="detailAddress"/>
+    <result column="payment_date" property="paymentDate"/>
+    <result column="payment_method" property="paymentMethod"/>
+    <result column="ship_status" property="shipStatus"/>
+    <result column="invoice" property="invoice"/>
+  </resultMap>
+  
+  <resultMap type="Order" id="findByMember">
+    <id column="order_id" property="orderNo"/>
+    <result column="member_id" property="memberNo"/>
+    <result column="name" property="name"/>
+    <result column="tel" property="tel"/>
+    <result column="post_no" property="postNo"/>
+    <result column="base_address" property="baseAddress"/>
+    <result column="detail_address" property="detailAddress"/>
+    <result column="payment_date" property="paymentDate"/>
+    <result column="payment_method" property="paymentMethod"/>
+    <result column="ship_status" property="shipStatus"/>
+    <result column="invoice" property="invoice"/>
+    
+    <collection property="orderProducts" ofType="OrderProduct">
+      <id column="order_id" property="orderNo"/>
+      <id column="product_id" property="productNo"/>
+      <result column="option_id" property="optionNo"/>
+      <result column="order_product_id" property="orderProductNo"/>
+      <result column="quantity" property="quantity"/>
+      <result column="discount_price" property="discountPrice"/>
+    </collection>
+    
+    <collection property="members" ofType="Member">
+      <id column="member_id" property="memberNo"/>
+      <result column="password" property="password"/>
+      <result column="email" property="email"/>
+      <result column="photo" property="photo"/>
+      <result column="nickname" property="nickname"/>
+      <result column="tel" property="tel"/>
+      <result column="post_no" property="postNo"/>
+      <result column="base_address" property="baseAddress"/>
+      <result column="detail_address" property="detailAddress"/>
+      <result column="grade" property="grade"/>
+      
+    </collection>
+  </resultMap>
+  
+  <select id="findAll" parameterType="map" resultMap="findByMember">
+    select
+      s.order_id,
+      s.name,
+      s.tel,
+      s.post_no,
+      s.base_address,
+      s.detail_address,
+      s.payment_date,
+      s.payment_method,
+      s.ship_status,
+      s.invoice,
+      p.product_id,
+      p.order_product_id,
+      p.option_id,
+      p.quantity,
+      p.discount_price,
+      m.member_id,
+      m.email,
+      m.nickname
+    from 
+      store_order s
+        left outer join order_product p on s.order_id=p.order_id
+        left outer join member m on s.member_id=m.member_id
+    order by s.order_id desc
+    limit #{offset}, #{pageSize}
+  </select>
+  
+  <select id="findByMember" resultMap="findByMember">
+    select
+      s.order_id,
+      s.post_no,
+      s.base_address,
+      s.detail_address,
+      s.payment_date,
+      s.payment_method,
+      s.ship_status,
+      s.invoice,
+      p.quantity,
+      p.discount_price,
+      m.member_id
+    from 
+      store_order s
+        left outer join order_product p on s.order_id=p.order_id
+        left outer join member m on s.member_id=m.member_id
+    where s.member_id=m.member_id
+    order by s.order_id desc
+  </select>
+
+  <select id="result" resultMap="findByMember">
+    select
+      s.order_id,
+      s.post_no,
+      s.base_address,
+      s.detail_address,
+      s.payment_date,
+      s.payment_method,
+      s.ship_status,
+      s.invoice,
+      p.quantity,
+      p.discount_price,
+      m.member_id
+    from 
+      store_order s
+        left outer join order_product p on s.order_id=p.order_id
+        left outer join member m on s.member_id=m.member_id
+    where s.member_id=m.member_id
+    order by s.order_id desc
+  </select>
+
+  <insert id="insert" parameterType="Order" useGeneratedKeys="true" keyColumn="order_id" keyProperty="orderNo">
+    insert into store_order(member_id, name, tel, post_no, base_address, detail_address, payment_method, ship_status, invoice)
+    values(#{memberNo}, #{name}, #{tel}, #{postNo}, #{baseAddress}, #{detailAddress}, #{paymentMethod}, #{shipStatus}, #{invoice}) 
+  </insert>
+  
+  <select id="findBy" parameterType="int" resultMap="OrderMap">
+    select
+      order_id,
+      member_id,
+      name,
+      tel,
+      post_no,
+      base_address,
+      detail_address,
+      payment_date,
+      payment_method,
+      ship_status,
+      invoice
+    from
+      store_order
+    where
+      order_id=#{value}
+  </select>
+  
+  <delete id="delete" parameterType="int">
+    delete from 
+      store_order
+    where 
+      order_id=#{value}
+  </delete>
+  
+  
+  <update id="update" parameterType="Order">
+    update 
+      store_order 
+    set
+      tel=#{tel},
+      post_no=#{postNo},
+      base_address=#{baseAddress},
+      detail_address=#{detailAddress}
+    where 
+      order_id=#{orderNo}
+  </update>
+  
+  <update id="statusUpdate" parameterType="Order">
+    update
+      store_order
+    set
+      ship_status=#{shipStatus}
+    where
+      order_id=#{orderNo}
+  </update>
+  
+  <select id="countAll" resultType="int">
+    select count(*) from member
+  </select>
+  
+  
+</mapper>

@@ -1,0 +1,58 @@
+a.chop-logo {
+  font-weight: bold;
+}
+
+img {
+  max-width: 100%; }
+/* :: 3.1.0 Spacing */
+.mb-30 {
+  margin-bottom: 30px !important; }
+
+.bg-img {
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat; }
+
+.sidebar-area {
+  position: relative;
+  z-index: 1; }
+  @media only screen and (min-width: 768px) and (max-width: 991px) {
+    .sidebar-area {
+      margin-top: 70px; } }
+  @media only screen and (max-width: 767px) {
+    .sidebar-area {
+      margin-top: 70px; } }
+
+.single-widget-area {
+  position: relative;
+  z-index: 1; }
+  .single-widget-area.author-widget .background-pattern {
+    position: relative;
+    z-index: 1;
+    padding: 20px 20px 0;
+    margin: 10px 10px;
+    text-align: center; }
+    .single-widget-area.author-widget .background-pattern .author-thumbnail {
+      width: 180px;
+      height: 180px;
+      overflow: hidden;
+      border-radius: 50%;
+      margin: 0 auto 15px; }
+      .single-widget-area.author-widget .background-pattern .author-thumbnail img {
+        width: 180px;
+        height: 180px;
+        object-fit: cover; }
+    .single-widget-area.author-widget .background-pattern p {
+      font-size: 14px;
+      margin-bottom: 0;
+      padding-bottom: 25px; }
+      .single-widget-area.author-widget .background-pattern p span {
+        color: #272727; }
+        
+#nav-tab > a:hover {
+  background-color: #b0c364;
+}
+
+nav a, td a {
+  color : #000000;
+}
