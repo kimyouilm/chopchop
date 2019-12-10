@@ -9,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ComponentScan(basePackages = "bitcamp.chopchop",
     excludeFilters = {@Filter(type = FilterType.REGEX, pattern = "bitcamp.chopchop.web.*")})
 
+// Annotation 기반의 SpringMVC를 구성할 때 필요한 Bean설정들을 자동으로 해주는 Annotation, 기본적으로 등록해주는 Bean들 이외에 추가적으로 개발자가 필요로하는 Bean들을 손쉽게 등록할 수 있도록 도와줌.
 @EnableWebMvc 
 public class AppConfig {
 

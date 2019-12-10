@@ -9,6 +9,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+// DataSourceTransactionManager 빈을 찾아 TransactionManager로 사용함.
 @EnableTransactionManagement 
 
 @PropertySource("classpath:bitcamp/chopchop/conf/jdbc.properties")
@@ -32,6 +33,7 @@ public class DatabaseConfig {
     return ds;
   }
   
+  // 트랜잭션을 적용할 DAO가 사용하는 것과 동일한 DataSource를 빈으로 제공해줘야 한다.
   @Bean
   public PlatformTransactionManager transactionManager(DataSource dataSource) {
     return new DataSourceTransactionManager(dataSource);

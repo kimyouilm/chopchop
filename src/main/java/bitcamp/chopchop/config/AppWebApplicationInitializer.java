@@ -4,6 +4,8 @@ import javax.servlet.Filter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+// 스프링은 웹 모듈내에 이미 ServletContainerInitializer를 구현한 클래스가 포함되어 있고,
+// 이는 WebApplicationInitializer 인터페이스를 구현한 클래스를 찾아 초기화 작업을 위임하는 역할을 수행한다.
 public class AppWebApplicationInitializer 
   extends AbstractAnnotationConfigDispatcherServletInitializer {
 
